@@ -1,4 +1,4 @@
-const CACHE_NAME = "hiragana-puzzle-v2";
+const CACHE_NAME = "hiragana-puzzle-v3"; // ⬅️ bump this for every update
 const urlsToCache = [
   "/",
   "/index.html",
@@ -6,8 +6,10 @@ const urlsToCache = [
   "/hiragana_puzzles.json",
   "/icon-192.png",
   "/icon-512.png",
+  // add other files like CSS or audio if needed
 ];
 
+// Install & cache resources
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
@@ -16,13 +18,14 @@ self.addEventListener("install", (event) => {
   );
 });
 
+// Activate & remove old caches
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
-        cacheNames.map((cache) => {
-          if (cache !== CACHE_NAME) {
-            return caches.delete(cache);
+        cacheNames.map((name) => {
+          if (name !== CACHE_NAME) {
+            return caches.delete(name);
           }
         })
       );
@@ -30,6 +33,7 @@ self.addEventListener("activate", (event) => {
   );
 });
 
+// Serve from cache or fetch
 self.addEventListener("fetch", (event) => {
   event.respondWith(
     caches.match(event.request).then((response) => {
