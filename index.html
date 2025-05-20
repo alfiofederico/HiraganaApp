@@ -211,24 +211,174 @@
     <button id="startBtn">はじめる</button>
   </div>
 
-  <!-- Your puzzle content will be injected below here -->
+  <div id="app"></div>
 
   <footer>つくったひと: パパ（Federico）</footer>
 
   <script>
-    const startBtn = document.getElementById("startBtn");
-    startBtn.addEventListener("click", startGame);
+    window.addEventListener("DOMContentLoaded", () => {
+      const app = document.getElementById("app");
 
-    function startGame() {
-      document.getElementById("startScreen").style.display = "none";
-      setupKeyboard();
-      loadPuzzle();
-    }
+      const rows = [
+        ["あ", "い", "う", "え", "お"],
+        ["か", "き", "く", "け", "こ"],
+        ["さ", "し", "す", "せ", "そ"],
+        ["た", "ち", "つ", "て", "と"],
+        ["な", "に", "ぬ", "ね", "の"],
+        ["は", "ひ", "ふ", "へ", "ほ"],
+        ["ま", "み", "む", "め", "も"],
+        ["や", "ゆ", "よ"],
+        ["ら", "り", "る", "れ", "ろ"],
+        ["わ", "を", "ん"],
+        ["が", "ぎ", "ぐ", "げ", "ご"],
+        ["ざ", "じ", "ず", "ぜ", "ぞ"],
+        ["だ", "ぢ", "づ", "で", "ど"],
+        ["ば", "び", "ぶ", "べ", "ぼ"],
+        ["ぱ", "ぴ", "ぷ", "ぺ", "ぽ"]
+      ];
 
-    window.addEventListener("load", () => {
+      const rewardEmojis = ["🍓", "🌟", "🍇", "⭐", "🎉", "🍎", "🧸", "🎈", "🍬", "🏆"];
+      let rewardCount = 0;
+      let puzzlesCleared = 0;
+      let puzzles = [];
+      let puzzle = null;
+      let selected = "";
+      let tries = 0;
+      const maxTries = 3;
+
+      function setupKeyboard() {
+        const choiceGrid = document.getElementById("choiceGrid");
+        choiceGrid.innerHTML = "";
+        rows.forEach(row => {
+          const rowDiv = document.createElement("div");
+          rowDiv.className = "row";
+          row.forEach(char => {
+            const btn = document.createElement("button");
+            btn.textContent = char;
+            btn.onclick = () => choose(char);
+            rowDiv.appendChild(btn);
+          });
+          choiceGrid.appendChild(rowDiv);
+        });
+      }
+
+      function choose(hiragana) {
+        if (tries >= maxTries) return;
+        selected = hiragana;
+        document.getElementById("center").textContent = hiragana;
+      }
+
+      function disableAllButtons() {
+        document.querySelectorAll(".choices button").forEach(btn => btn.disabled = true);
+      }
+
+      function checkAnswer() {
+        if (!selected) return;
+
+        const result = document.getElementById("result");
+        const mascot = document.getElementById("mascot");
+        const checkBtn = document.getElementById("checkBtn");
+        const nextBtn = document.getElementById("nextBtn");
+        const retryBtn = document.getElementById("retryBtn");
+        const clearedText = document.getElementById("cleared");
+
+        if (selected === puzzle.middle) {
+          result.textContent = "🎉 せいかい！";
+          result.style.color = "green";
+          mascot.textContent = "🐰✨";
+          disableAllButtons();
+          checkBtn.disabled = true;
+          nextBtn.style.display = "inline-block";
+          const emoji = rewardEmojis[rewardCount % rewardEmojis.length];
+          document.getElementById("rewardList").textContent += " " + emoji;
+          rewardCount++;
+          puzzlesCleared++;
+          clearedText.textContent = puzzlesCleared;
+        } else {
+          tries++;
+          if (tries >= maxTries) {
+            result.textContent = `💥 GAME OVER！ せいかいは『${puzzle.middle}』でした。`;
+            result.style.color = "red";
+            mascot.textContent = "😢";
+            disableAllButtons();
+            checkBtn.disabled = true;
+            retryBtn.style.display = "inline-block";
+          } else {
+            result.textContent = `❌ ちがうよ。あと${maxTries - tries}かい！`;
+            result.style.color = "red";
+            setTimeout(() => result.textContent = "", 1000);
+          }
+        }
+      }
+
+      function loadPuzzle() {
+        puzzle = puzzles[Math.floor(Math.random() * puzzles.length)];
+        selected = "";
+        tries = 0;
+
+        document.getElementById("top").textContent = puzzle.vertical[0];
+        document.getElementById("bottom").textContent = puzzle.vertical[2];
+        document.getElementById("left").textContent = puzzle.horizontal[0];
+        document.getElementById("right").textContent = puzzle.horizontal[2];
+        document.getElementById("center").textContent = "？";
+
+        document.querySelectorAll(".choices button").forEach(btn => btn.disabled = false);
+        document.getElementById("checkBtn").disabled = false;
+        document.getElementById("result").textContent = "";
+        document.getElementById("mascot").textContent = "";
+        document.getElementById("nextBtn").style.display = "none";
+        document.getElementById("retryBtn").style.display = "none";
+      }
+
+      function startGame() {
+        document.getElementById("startScreen").style.display = "none";
+        document.getElementById("app").innerHTML = `
+          <h1>まん中の もじは なに？</h1>
+          <div class="cross">
+            <div class="cell empty"></div>
+            <div class="cell" id="top"></div>
+            <div class="cell empty"></div>
+            <div class="cell" id="left"></div>
+            <div class="cell center" id="center">？</div>
+            <div class="cell" id="right"></div>
+            <div class="cell empty"></div>
+            <div class="cell" id="bottom"></div>
+            <div class="cell empty"></div>
+          </div>
+          <div class="choices" id="choiceGrid"></div>
+          <button onclick="checkAnswer()" id="checkBtn">こたえあわせ</button>
+          <div id="result"></div>
+          <div id="mascot"></div>
+          <div id="controls">
+            <button onclick="loadPuzzle()" id="nextBtn" style="display:none">つぎのもんだい</button>
+            <button onclick="loadPuzzle()" id="retryBtn" style="display:none">もういちど</button>
+          </div>
+          <div id="progress">🧩 パズル：<span id="cleared">0</span> / 10 かいせき</div>
+          <div id="rewards">🎁 ごほうび: <span id="rewardList"></span></div>
+        `;
+        setupKeyboard();
+        loadPuzzle();
+      }
+
+      document.getElementById("startBtn").addEventListener("click", startGame);
+
+      fetch("hiragana_puzzles.json")
+        .then(res => res.json())
+        .then(data => { puzzles = data; })
+        .catch(err => {
+          console.error("Failed to load puzzles:", err);
+          document.getElementById("result").textContent = "⚠️ パズルの読み込みに失敗しました。";
+        });
+
       setTimeout(() => {
         document.getElementById("splashScreen").style.display = "none";
       }, 1000);
+
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(reg => console.log('SW registered:', reg))
+          .catch(err => console.error('SW registration failed:', err));
+      }
     });
   </script>
 </body>
