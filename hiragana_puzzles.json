@@ -15,38 +15,78 @@
     "middle": "ま"
   },
   {
-    "horizontal": "いちご",
-    "vertical": "はちみ",
-    "middle": "ち"
+    "horizontal": "くまの",
+    "vertical": "あめだ",
+    "middle": "ま"
   },
   {
-    "horizontal": "すいか",
-    "vertical": "こいぬ",
-    "middle": "い"
+    "horizontal": "はなび",
+    "vertical": "さかな",
+    "middle": "な"
   },
   {
-    "horizontal": "うさぎ",
-    "vertical": "かさご",
-    "middle": "さ"
+    "horizontal": "ふうせ",
+    "vertical": "こうさ",
+    "middle": "う"
   },
   {
-    "horizontal": "うさぎ",
-    "vertical": "やさい",
-    "middle": "さ"
+    "horizontal": "そらま",
+    "vertical": "ひこう",
+    "middle": "ら"
   },
   {
-    "horizontal": "かさご",
-    "vertical": "やさい",
-    "middle": "さ"
+    "horizontal": "おにぎ",
+    "vertical": "さけや",
+    "middle": "に"
   },
   {
-    "horizontal": "たぬき",
-    "vertical": "いぬま",
-    "middle": "ぬ"
+    "horizontal": "しろく",
+    "vertical": "たぬき",
+    "middle": "ろ"
   },
   {
-    "horizontal": "ひつじ",
-    "vertical": "きつね",
+    "horizontal": "ひまわ",
+    "vertical": "ももや",
+    "middle": "ま"
+  },
+  {
+    "horizontal": "とけい",
+    "vertical": "すいか",
+    "middle": "け"
+  },
+  {
+    "horizontal": "たこや",
+    "vertical": "さとい",
+    "middle": "こ"
+  },
+  {
+    "horizontal": "つきよ",
+    "vertical": "ふねや",
+    "middle": "き"
+  },
+  {
+    "horizontal": "みかん",
+    "vertical": "さかな",
+    "middle": "か"
+  },
+  {
+    "horizontal": "りすの",
+    "vertical": "やまも",
+    "middle": "す"
+  },
+  {
+    "horizontal": "くつや",
+    "vertical": "ほしの",
     "middle": "つ"
+  },
+  {
+    "horizontal": "ゆきだ",
+    "vertical": "かみな",
+    "middle": "き"
+  },
+  {
+    "horizontal": "のりま",
+    "vertical": "せみや",
+    "middle": "り"
   }
 ]
