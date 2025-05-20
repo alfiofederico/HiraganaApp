@@ -217,6 +217,7 @@
 
   <script>
     window.addEventListener("DOMContentLoaded", () => {
+      const startBtn = document.getElementById("startBtn");
       const app = document.getElementById("app");
 
       const rows = [
@@ -255,7 +256,7 @@
           row.forEach(char => {
             const btn = document.createElement("button");
             btn.textContent = char;
-            btn.onclick = () => choose(char);
+            btn.addEventListener("click", () => choose(char));
             rowDiv.appendChild(btn);
           });
           choiceGrid.appendChild(rowDiv);
@@ -274,7 +275,6 @@
 
       function checkAnswer() {
         if (!selected) return;
-
         const result = document.getElementById("result");
         const mascot = document.getElementById("mascot");
         const checkBtn = document.getElementById("checkBtn");
@@ -330,9 +330,8 @@
         document.getElementById("retryBtn").style.display = "none";
       }
 
-      function startGame() {
-        document.getElementById("startScreen").style.display = "none";
-        document.getElementById("app").innerHTML = `
+      function renderGameUI() {
+        app.innerHTML = `
           <h1>まん中の もじは なに？</h1>
           <div class="cross">
             <div class="cell empty"></div>
@@ -346,21 +345,29 @@
             <div class="cell empty"></div>
           </div>
           <div class="choices" id="choiceGrid"></div>
-          <button onclick="checkAnswer()" id="checkBtn">こたえあわせ</button>
+          <button id="checkBtn">こたえあわせ</button>
           <div id="result"></div>
           <div id="mascot"></div>
           <div id="controls">
-            <button onclick="loadPuzzle()" id="nextBtn" style="display:none">つぎのもんだい</button>
-            <button onclick="loadPuzzle()" id="retryBtn" style="display:none">もういちど</button>
+            <button id="nextBtn" style="display:none">つぎのもんだい</button>
+            <button id="retryBtn" style="display:none">もういちど</button>
           </div>
           <div id="progress">🧩 パズル：<span id="cleared">0</span> / 10 かいせき</div>
           <div id="rewards">🎁 ごほうび: <span id="rewardList"></span></div>
         `;
+
+        document.getElementById("checkBtn").addEventListener("click", checkAnswer);
+        document.getElementById("nextBtn").addEventListener("click", loadPuzzle);
+        document.getElementById("retryBtn").addEventListener("click", loadPuzzle);
+
         setupKeyboard();
         loadPuzzle();
       }
 
-      document.getElementById("startBtn").addEventListener("click", startGame);
+      startBtn.addEventListener("click", () => {
+        document.getElementById("startScreen").style.display = "none";
+        renderGameUI();
+      });
 
       fetch("hiragana_puzzles.json")
         .then(res => res.json())
