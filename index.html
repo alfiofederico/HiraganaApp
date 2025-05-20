@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hiragana Cross Puzzle</title>
+  <style>
+    :root {
+      --cell-size: 60px;
+    }
+
+    body {
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      margin: 0;
+    }
+
+    h1 {
+      color: #59d674;
+      font-size: 1.8rem;
+      text-align: center;
+    }
+
+    #startScreen {
+      position: fixed;
+      inset: 0;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    #startScreen h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    #startScreen button {
+      background-color: #59d674;
+      color: white;
+      font-size: 1.5rem;
+      padding: 0.6rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .cross {
+      display: grid;
+      grid-template-columns: var(--cell-size) var(--cell-size) var(--cell-size);
+      grid-template-rows: var(--cell-size) var(--cell-size) var(--cell-size);
+      gap: 5px;
+      margin-bottom: 1rem;
+    }
+
+    .cell {
+      width: var(--cell-size);
+      height: var(--cell-size);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      border: 2px solid #444;
+      background-color: #fff;
+    }
+
+    .empty {
+      background-color: transparent;
+      border: none;
+    }
+
+    .center {
+      cursor: pointer;
+      background-color: #f0f0f0;
+      color: #59d674;
+      font-weight: bold;
+    }
+
+    .choices {
+      margin: 1rem 0;
+      width: 100%;
+    }
+
+    .row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 5px;
+    }
+
+    button {
+      font-size: 1.5rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      background-color: #fefefe;
+    }
+
+    button:disabled {
+      background-color: #ddd;
+      color: #888;
+      cursor: not-allowed;
+    }
+
+    #result {
+      font-size: 1.4rem;
+      margin-top: 1rem;
+      min-height: 1.5em;
+      text-align: center;
+    }
+
+    #mascot {
+      font-size: 3rem;
+      margin-top: 0.5rem;
+      min-height: 3rem;
+      text-align: center;
+    }
+
+    #controls {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    #progress {
+      margin-top: 1rem;
+      font-size: 1.3rem;
+      text-align: center;
+    }
+
+    #rewards {
+      margin-top: 2rem;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      :root {
+        --cell-size: 50px;
+      }
+
+      button {
+        font-size: 1.2rem;
+        padding: 0.3rem 0.6rem;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      #startScreen h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="startScreen">
+    <h2>ひらがなパズルゲームへようこそ！</h2>
+    <button onclick="startGame()">はじめる</button>
+  </div>
+
+  <h1>まん中の もじは なに？</h1>
+  <div class="cross">
+    <div class="cell empty"></div>
+    <div class="cell" id="top"></div>
+    <div class="cell empty"></div>
+
+    <div class="cell" id="left"></div>
+    <div class="cell center" id="center">？</div>
+    <div class="cell" id="right"></div>
+
+    <div class="cell empty"></div>
+    <div class="cell" id="bottom"></div>
+    <div class="cell empty"></div>
+  </div>
+
+  <div class="choices" id="choiceGrid"></div>
+  <button onclick="checkAnswer()" id="checkBtn">こたえあわせ</button>
+  <div id="result"></div>
+  <div id="mascot"></div>
+  <div id="controls">
+    <button onclick="loadPuzzle()" id="nextBtn" style="display:none">つぎのもんだい</button>
+    <button onclick="loadPuzzle()" id="retryBtn" style="display:none">もういちど</button>
+  </div>
+
+  <div id="progress">🧩 パズル：<span id="cleared">0</span> / 10 かいせき</div>
+  <div id="rewards">🎁 ごほうび: <span id="rewardList"></span></div>
+
+  <script>
+    const rows = [
+      ["あ", "い", "う", "え", "お"],
+      ["か", "き", "く", "け", "こ"],
+      ["さ", "し", "す", "せ", "そ"],
+      ["た", "ち", "つ", "て", "と"],
+      ["な", "に", "ぬ", "ね", "の"],
+      ["は", "ひ", "ふ", "へ", "ほ"],
+      ["ま", "み", "む", "め", "も"],
+      ["や", "ゆ", "よ"],
+      ["ら", "り", "る", "れ", "ろ"],
+      ["わ", "を", "ん"],
+      ["が", "ぎ", "ぐ", "げ", "ご"],
+      ["ざ", "じ", "ず", "ぜ", "ぞ"],
+      ["だ", "ぢ", "づ", "で", "ど"],
+      ["ば", "び", "ぶ", "べ", "ぼ"],
+      ["ぱ", "ぴ", "ぷ", "ぺ", "ぽ"]
+    ];
+
+    const rewardEmojis = ["🍓", "🌟", "🍇", "⭐", "🎉", "🍎", "🧸", "🎈", "🍬", "🏆"];
+    let rewardCount = 0;
+    let puzzlesCleared = 0;
+
+    let puzzles = [];
+    let puzzle = null;
+    let selected = "";
+    let tries = 0;
+    const maxTries = 3;
+
+    const centerCell = document.getElementById("center");
+    const checkBtn = document.getElementById("checkBtn");
+    const result = document.getElementById("result");
+    const nextBtn = document.getElementById("nextBtn");
+    const retryBtn = document.getElementById("retryBtn");
+    const rewardList = document.getElementById("rewardList");
+    const mascot = document.getElementById("mascot");
+    const clearedText = document.getElementById("cleared");
+
+    function setupKeyboard() {
+      const choiceGrid = document.getElementById("choiceGrid");
+      choiceGrid.innerHTML = "";
+      rows.forEach(row => {
+        const rowDiv = document.createElement("div");
+        rowDiv.className = "row";
+        row.forEach(char => {
+          const btn = document.createElement("button");
+          btn.textContent = char;
+          btn.onclick = () => choose(char);
+          rowDiv.appendChild(btn);
+        });
+        choiceGrid.appendChild(rowDiv);
+      });
+    }
+
+    function loadPuzzle() {
+      puzzle = puzzles[Math.floor(Math.random() * puzzles.length)];
+      selected = "";
+      tries = 0;
+
+      document.getElementById("top").textContent = puzzle.vertical[0];
+      document.getElementById("bottom").textContent = puzzle.vertical[2];
+      document.getElementById("left").textContent = puzzle.horizontal[0];
+      document.getElementById("right").textContent = puzzle.horizontal[2];
+      centerCell.textContent = "？";
+
+      document.querySelectorAll(".choices button").forEach(btn => btn.disabled = false);
+      checkBtn.disabled = false;
+      result.textContent = "";
+      mascot.textContent = "";
+      nextBtn.style.display = "none";
+      retryBtn.style.display = "none";
+    }
+
+    function choose(hiragana) {
+      if (tries >= maxTries) return;
+      selected = hiragana;
+      centerCell.textContent = hiragana;
+    }
+
+    function disableAllButtons() {
+      document.querySelectorAll(".choices button").forEach(btn => btn.disabled = true);
+    }
+
+    function checkAnswer() {
+      if (!selected) return;
+
+      if (selected === puzzle.middle) {
+        result.textContent = "🎉 せいかい！";
+        result.style.color = "green";
+        mascot.textContent = "🐰✨";
+        disableAllButtons();
+        checkBtn.disabled = true;
+        nextBtn.style.display = "inline-block";
+        giveReward();
+        puzzlesCleared++;
+        clearedText.textContent = puzzlesCleared;
+      } else {
+        tries++;
+        if (tries >= maxTries) {
+          result.textContent = "💥 GAME OVER！ せいかいは『" + puzzle.middle + "』でした。";
+          result.style.color = "red";
+          mascot.textContent = "😢";
+          disableAllButtons();
+          checkBtn.disabled = true;
+          retryBtn.style.display = "inline-block";
+        } else {
+          result.textContent = "❌ ちがうよ。あと" + (maxTries - tries) + "かい！";
+          result.style.color = "red";
+          setTimeout(() => {
+            result.textContent = "";
+          }, 1000);
+        }
+      }
+    }
+
+    function giveReward() {
+      const emoji = rewardEmojis[rewardCount % rewardEmojis.length];
+      rewardList.textContent += " " + emoji;
+      rewardCount++;
+    }
+
+    function startGame() {
+      document.getElementById("startScreen").style.display = "none";
+      setupKeyboard();
+      loadPuzzle();
+    }
+
+    fetch("hiragana_puzzles.json")
+      .then(res => res.json())
+      .then(data => {
+        puzzles = data;
+      })
+      .catch(err => {
+        console.error("Failed to load puzzles:", err);
+        result.textContent = "⚠️ パズルの読み込みに失敗しました。";
+      });
+  </script>
+</body>
+</html>

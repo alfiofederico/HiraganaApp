@@ -1,0 +1,52 @@
+[
+  {
+    "horizontal": "たまご",
+    "vertical": "かまぼ",
+    "middle": "ま"
+  },
+  {
+    "horizontal": "たまご",
+    "vertical": "とまと",
+    "middle": "ま"
+  },
+  {
+    "horizontal": "かまぼ",
+    "vertical": "とまと",
+    "middle": "ま"
+  },
+  {
+    "horizontal": "いちご",
+    "vertical": "はちみ",
+    "middle": "ち"
+  },
+  {
+    "horizontal": "すいか",
+    "vertical": "こいぬ",
+    "middle": "い"
+  },
+  {
+    "horizontal": "うさぎ",
+    "vertical": "かさご",
+    "middle": "さ"
+  },
+  {
+    "horizontal": "うさぎ",
+    "vertical": "やさい",
+    "middle": "さ"
+  },
+  {
+    "horizontal": "かさご",
+    "vertical": "やさい",
+    "middle": "さ"
+  },
+  {
+    "horizontal": "たぬき",
+    "vertical": "いぬま",
+    "middle": "ぬ"
+  },
+  {
+    "horizontal": "ひつじ",
+    "vertical": "きつね",
+    "middle": "つ"
+  }
+]
