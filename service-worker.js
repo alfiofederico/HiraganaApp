@@ -1,4 +1,4 @@
-const CACHE_NAME = "hiragana-puzzle-v3"; // ⬅️ bump this for every update
+const CACHE_NAME = "hiragana-puzzle-v4"; // ⬅️ bump this for every update
 const urlsToCache = [
   "/",
   "/index.html",
