@@ -208,18 +208,27 @@
 
   <div id="startScreen">
     <h2>ひらがなパズルゲームへようこそ！</h2>
-    <button onclick="startGame()">はじめる</button>
+    <button id="startBtn">はじめる</button>
   </div>
 
-  <!-- ... existing puzzle content stays the same ... -->
+  <!-- Your puzzle content will be injected below here -->
 
   <footer>つくったひと: パパ（Federico）</footer>
 
   <script>
+    const startBtn = document.getElementById("startBtn");
+    startBtn.addEventListener("click", startGame);
+
+    function startGame() {
+      document.getElementById("startScreen").style.display = "none";
+      setupKeyboard();
+      loadPuzzle();
+    }
+
     window.addEventListener("load", () => {
       setTimeout(() => {
         document.getElementById("splashScreen").style.display = "none";
-      }, 1000); // Adjust duration if needed
+      }, 1000);
     });
   </script>
 </body>
