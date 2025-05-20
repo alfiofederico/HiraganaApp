@@ -1,68 +1,8 @@
 [
   {
-    "horizontal": "たまご",
-    "vertical": "かまぼ",
-    "middle": "ま"
-  },
-  {
-    "horizontal": "たまご",
-    "vertical": "とまと",
-    "middle": "ま"
-  },
-  {
-    "horizontal": "かまぼ",
-    "vertical": "とまと",
-    "middle": "ま"
-  },
-  {
-    "horizontal": "くまの",
-    "vertical": "あめだ",
-    "middle": "ま"
-  },
-  {
-    "horizontal": "はなび",
-    "vertical": "さかな",
-    "middle": "な"
-  },
-  {
     "horizontal": "ふうせ",
     "vertical": "こうさ",
     "middle": "う"
-  },
-  {
-    "horizontal": "そらま",
-    "vertical": "ひこう",
-    "middle": "ら"
-  },
-  {
-    "horizontal": "おにぎ",
-    "vertical": "さけや",
-    "middle": "に"
-  },
-  {
-    "horizontal": "しろく",
-    "vertical": "たぬき",
-    "middle": "ろ"
-  },
-  {
-    "horizontal": "ひまわ",
-    "vertical": "ももや",
-    "middle": "ま"
-  },
-  {
-    "horizontal": "とけい",
-    "vertical": "すいか",
-    "middle": "け"
-  },
-  {
-    "horizontal": "たこや",
-    "vertical": "さとい",
-    "middle": "こ"
-  },
-  {
-    "horizontal": "つきよ",
-    "vertical": "ふねや",
-    "middle": "き"
   },
   {
     "horizontal": "みかん",
@@ -70,23 +10,72 @@
     "middle": "か"
   },
   {
-    "horizontal": "りすの",
-    "vertical": "やまも",
-    "middle": "す"
+    "horizontal": "はなみ",  
+    "vertical": "おなか",  
+    "middle": "な"
   },
   {
-    "horizontal": "くつや",
-    "vertical": "ほしの",
-    "middle": "つ"
-  },
-  {
-    "horizontal": "ゆきだ",
-    "vertical": "かみな",
+    "horizontal": "つきよ",
+    "vertical": "ひきよ",
     "middle": "き"
   },
   {
-    "horizontal": "のりま",
-    "vertical": "せみや",
-    "middle": "り"
+    "horizontal": "こけし",
+    "vertical": "とけい",
+    "middle": "け"
+  },
+  {
+    "horizontal": "はなみ",  
+    "vertical": "はなび",    
+    "middle": "な"
+  },
+  {
+    "horizontal": "おかし",
+    "vertical": "はかせ",
+    "middle": "か"
+  },
+  {
+    "horizontal": "ゆきや",
+    "vertical": "ときや",
+    "middle": "き"
+  },
+  {
+    "horizontal": "のはら",
+    "vertical": "おはぎ",
+    "middle": "は"
+  },
+  {
+    "horizontal": "さつま",
+    "vertical": "ひつま",
+    "middle": "つ"
+  },
+  {
+    "horizontal": "たぬき",
+    "vertical": "まぬけ",
+    "middle": "ぬ"
+  },
+  {
+    "horizontal": "やまの",
+    "vertical": "しまの",
+    "middle": "ま"
+  },
+  {
+    "horizontal": "ほしの",
+    "vertical": "すしの",
+    "middle": "し"
+  },
+  {
+    "horizontal": "らいお",
+    "vertical": "さいお",
+    "middle": "い"
+  },
+  { "horizontal": "たまご",
+    "vertical": "かまぼ",
+    "middle": "ま"
+  },
+  {
+    "horizontal": "たまご",
+    "vertical": "とまと",
+    "middle": "ま"
   }
 ]
