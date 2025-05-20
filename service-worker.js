@@ -1,4 +1,4 @@
-const CACHE_NAME = "hiragana-puzzle-v1";
+const CACHE_NAME = "hiragana-puzzle-v2";
 const urlsToCache = [
   "/",
   "/index.html",
