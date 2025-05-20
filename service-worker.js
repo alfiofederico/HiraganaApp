@@ -1,12 +1,11 @@
-// service-worker.js
-const CACHE_NAME = "hiragana-cache-v1";
+const CACHE_NAME = "hiragana-puzzle-v1";
 const urlsToCache = [
-  "./",
-  "./index.html",
-  "./manifest.json",
-  "./hiragana_puzzles.json",
-  "./icon-192.png",
-  "./icon-512.png",
+  "/",
+  "/index.html",
+  "/manifest.json",
+  "/hiragana_puzzles.json",
+  "/icon-192.png",
+  "/icon-512.png",
 ];
 
 self.addEventListener("install", (event) => {
