@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#59d674" />
   <title>Hiragana Cross Puzzle</title>
   <style>
     :root {
@@ -334,6 +336,18 @@
         console.error("Failed to load puzzles:", err);
         result.textContent = "⚠️ パズルの読み込みに失敗しました。";
       });
+
+      if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+      navigator.serviceWorker.register('./service-worker.js')
+      .then(function (registration) {
+        console.log('SW registered: ', registration);
+      })
+      .catch(function (error) {
+        console.log('SW registration failed: ', error);
+      });
+  });
+}
   </script>
 </body>
 </html>
